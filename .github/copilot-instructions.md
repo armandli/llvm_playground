@@ -36,6 +36,7 @@ follow this guideline for code contribution:
 - do not include any binary executable object in pull request
 - project should build successfully
 - unit test should all pass
+- remove files that are executable from the pull request
 
 ## deployment flow
 - build: `cmake . && make`
