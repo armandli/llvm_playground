@@ -11,13 +11,22 @@ set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
 
 # Find required packages
 find_package(LLVM REQUIRED CONFIG)
-find_package(Boost REQUIRED COMPONENTS program_options)
-find_package(GTest REQUIRED)
+# Make Boost optional - only needed for certain components
+find_package(Boost COMPONENTS program_options)
+find_package(GTest)
 
 # Report found versions
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
-message(STATUS "Found Boost ${Boost_VERSION}")
-message(STATUS "Found GTest ${GTest_VERSION}")
+if(Boost_FOUND)
+    message(STATUS "Found Boost ${Boost_VERSION}")
+else()
+    message(STATUS "Boost not found - some components may not be available")
+endif()
+if(GTest_FOUND)
+    message(STATUS "Found GTest ${GTest_VERSION}")
+else()
+    message(STATUS "GTest not found - tests may not be available")
+endif()
 
 # Add LLVM definitions and include directories
 add_definitions(${LLVM_DEFINITIONS})
@@ -35,7 +44,9 @@ add_subdirectory(src/lexer)
 add_subdirectory(src/parser)
 add_subdirectory(src/codegen)
 add_subdirectory(src/app)
-add_subdirectory(test)
+if(GTest_FOUND)
+    add_subdirectory(test)
+endif()
 
 # Global compiler flags
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
