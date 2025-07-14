@@ -1,4 +1,15 @@
 # Application executables
+
+# Kaleidoscope parser executable
+add_executable(kaleidoscope kaleidoscope.cpp)
+# kaleidoscope.cpp is self-contained and only uses standard C++ libraries
+target_compile_features(kaleidoscope PRIVATE cxx_std_17)
+# Set output directory to bin
+set_target_properties(kaleidoscope PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+
+# Optional: Add other executables when source files exist
 set(APP_SOURCES
     # Add source files here when they exist
 )
