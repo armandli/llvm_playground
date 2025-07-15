@@ -1,12 +1,10 @@
 # Lexer library
 set(LEXER_SOURCES
-    # Add source files here when they exist
+    lexer.cpp
 )
 
-if(LEXER_SOURCES)
-    add_library(lexer STATIC ${LEXER_SOURCES})
-    target_link_libraries(lexer ${llvm_libs})
-    if(TARGET util)
-        target_link_libraries(lexer util)
-    endif()
+add_library(lexer STATIC ${LEXER_SOURCES})
+target_compile_features(lexer PRIVATE cxx_std_17)
+if(TARGET util)
+    target_link_libraries(lexer util)
 endif()

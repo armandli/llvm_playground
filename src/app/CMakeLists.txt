@@ -2,8 +2,8 @@
 
 # Kaleidoscope parser executable
 add_executable(kaleidoscope kaleidoscope.cpp)
-# kaleidoscope.cpp is self-contained and only uses standard C++ libraries
 target_compile_features(kaleidoscope PRIVATE cxx_std_17)
+target_link_libraries(kaleidoscope lexer parser)
 # Set output directory to bin
 set_target_properties(kaleidoscope PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
@@ -11,9 +11,8 @@ set_target_properties(kaleidoscope PROPERTIES
 
 # Codegen executable
 add_executable(codegen codegen.cpp)
-# codegen.cpp uses LLVM libraries
 target_compile_features(codegen PRIVATE cxx_std_17)
-target_link_libraries(codegen ${llvm_libs})
+target_link_libraries(codegen lexer parser codegenlib ${llvm_libs})
 # Set output directory to bin
 set_target_properties(codegen PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
